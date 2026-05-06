@@ -1,0 +1,64 @@
+import pandas as pd
+import numpy as np
+
+# -------------------------------
+# Load multiple datasets
+# -------------------------------
+files = [
+    "../data/Monday.csv",
+    "../data/Tuesday.csv",
+    "../data/Friday.csv"
+]
+
+df_list = []
+
+for file in files:
+    print(f"Loading {file}...")
+    temp_df = pd.read_csv(file, encoding='latin1')
+    temp_df.columns = temp_df.columns.str.strip()
+    df_list.append(temp_df)
+
+# -------------------------------
+# Combine datasets
+# -------------------------------
+df = pd.concat(df_list, ignore_index=True)
+
+print("Combined Shape:", df.shape)
+
+# -------------------------------
+# Remove duplicates
+# -------------------------------
+df.drop_duplicates(inplace=True)
+
+# -------------------------------
+# Handle missing values
+# -------------------------------
+df.replace([np.inf, -np.inf], np.nan, inplace=True)
+df.dropna(inplace=True)
+
+# -------------------------------
+# Reduce size (IMPORTANT)
+# -------------------------------
+df = df.sample(20000, random_state=42)
+
+# -------------------------------
+# Convert labels (Binary)
+# -------------------------------
+print("Labels before:", df['Label'].unique())
+
+df['Label'] = df['Label'].apply(lambda x: 0 if x == 'BENIGN' else 1)
+
+# -------------------------------
+# Split features & labels
+# -------------------------------
+X = df.drop('Label', axis=1)
+y = df['Label']
+
+# -------------------------------
+# Save output
+# -------------------------------
+X.to_csv("../data/combined_features.csv", index=False)
+y.to_csv("../data/combined_labels.csv", index=False)
+
+print("Phase 2 completed successfully!")
+print("Final Shape:", df.shape)

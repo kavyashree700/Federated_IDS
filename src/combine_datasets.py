@@ -5,9 +5,13 @@ import numpy as np
 # Load multiple datasets
 # -------------------------------
 files = [
-    "../data/Monday.csv",
-    "../data/Tuesday.csv",
-    "../data/Friday.csv"
+    "data/Monday.csv",
+    "data/Tuesday.csv",
+    "data/Friday.csv",
+    "data/Friday1.csv",
+    "data/Wednesday.csv",
+    "data/Thursday1.csv",
+    "data/Thursday2.csv"
 ]
 
 df_list = []
@@ -57,8 +61,8 @@ y = df['Label']
 # -------------------------------
 # Save output
 # -------------------------------
-X.to_csv("../data/combined_features.csv", index=False)
-y.to_csv("../data/combined_labels.csv", index=False)
+X.to_csv("data/combined_features.csv", index=False)
+y.to_csv("data/combined_labels.csv", index=False)
 
 print("Phase 2 completed successfully!")
 print("Final Shape:", df.shape)

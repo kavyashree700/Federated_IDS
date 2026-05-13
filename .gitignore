@@ -12,3 +12,11 @@ venv/
 # Ignore system files
 .DS_Store
 Thumbs.db
+
+venv/
+__pycache__/
+*.pyc
+
+data/*.csv
+
+results/*.png

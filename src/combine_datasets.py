@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-
+from sklearn.preprocessing import LabelEncoder
 # -------------------------------
 # Load multiple datasets
 # -------------------------------
@@ -48,10 +48,17 @@ df = df.sample(20000, random_state=42)
 # -------------------------------
 # Convert labels (Binary)
 # -------------------------------
-print("Labels before:", df['Label'].unique())
+print("Labels before encoding:", df['Label'].unique())
 
-df['Label'] = df['Label'].apply(lambda x: 0 if x == 'BENIGN' else 1)
 
+
+le = LabelEncoder()
+
+df['Label'] = le.fit_transform(df['Label'])
+
+
+print("\nEncoded label Counts:")
+print(df['Label'].value_counts())
 # -------------------------------
 # Split features & labels
 # -------------------------------
@@ -64,5 +71,5 @@ y = df['Label']
 X.to_csv("data/combined_features.csv", index=False)
 y.to_csv("data/combined_labels.csv", index=False)
 
-print("Phase 2 completed successfully!")
+print("Preprocessing completed successfully!")
 print("Final Shape:", df.shape)
